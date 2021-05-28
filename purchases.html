@@ -80,7 +80,7 @@
         <th>Item</th>
         <th>Quantity</th>
         <th>Unit of Measure</th>
-        <th>Cost</th>
+        <th>Total Cost</th>
         <th>Supplier</th>
         <th>Date</th>
       </tr>
@@ -119,11 +119,7 @@
                       <select name="" id="addItemName">
                         <option value=""></option>
                       </select>
-                    </div>      
-                    <div class="form-group">
-                      <label >Quantity</label>
-                      <input type="number" step="any" placeholder="Quantity" name="quantity" class="form-control" id="addQuantity" required="">
-                    </div>   
+                    </div>         
                     <div class="form-group">
                       <label >Unit of Measure</label>
                       <select id="addUnitOfMeasure" name="unitofMeasure" required="">
@@ -136,8 +132,12 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label >Cost</label>
-                      <input type="number" step="any" placeholder="Cost" name="cost" class="form-control" id="addCost" required="">
+                      <label >Quantity</label>
+                      <input type="number" step="any" placeholder="Quantity" name="quantity" class="form-control" id="addQuantity" required="">
+                    </div>
+                    <div class="form-group">
+                      <label>Total Cost</label>
+                      <input type="number" step="any" placeholder="Total Cost" name="cost" class="form-control" id="addCost" required="">
                     </div>   
                     <div class="form-group">
                       <label >Supplier</label>
@@ -202,7 +202,7 @@
                             </select>
                           </div>
                           <div class="form-group">
-                            <label >Cost</label>
+                            <label>Total Cost</label>
                             <!-- <input type="number" step="any" placeholder="Cost" name="cost" class="form-control" id="deleteCost" required=""> -->
                             <select id="deleteCost" name="cost">
                               <option value=""></option>
@@ -281,8 +281,8 @@
                           <input type="number" step="any" placeholder="Quantity" name="quantity" class="form-control" id="updateQuantity" required="">
                         </div>   
                         <div class="form-group">
-                          <label >Cost</label>
-                          <input type="number" step="any" placeholder="Cost" name="cost" class="form-control" id="updateCost" required="">
+                          <label>Total Cost</label>
+                          <input type="number" step="any" placeholder="Total Cost" name="cost" class="form-control" id="updateCost" required="">
                         </div>                     
                         <br>
                         <input type="submit" name="submit" value ="Update" class="btn btn-primary">
