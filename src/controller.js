@@ -234,41 +234,47 @@ export async function addSupplier(name, address, contact_person, contact_number,
 }
 
 export async function deleteSupplier(name) {
-    try {
-        let listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
-        console.log('listOfSuppliers:', listOfSuppliers);
-        for (const supplier of listOfSuppliers) {
-            if (supplier.name === name) {
-                const response = await axios.delete(`/suppliers/${supplier.id}`);
-                console.log('response.data for delete:', response.data);
-                break
+    let result= confirm("Are you sure you want to delete the supplier?");
+    if(result == true) {
+        try {
+            let listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
+            console.log('listOfSuppliers:', listOfSuppliers);
+            for (const supplier of listOfSuppliers) {
+                if (supplier.name === name) {
+                    const response = await axios.delete(`/suppliers/${supplier.id}`);
+                    console.log('response.data for delete:', response.data);
+                    break
+                }
             }
+            alert('Successfully deleted supplier');
+            location.reload();
         }
-        alert('Successfully deleted supplier');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }
 
 export async function updateSupplier(supplier_id, address, contact_person, contact_number, payment_mode, credit_term) {
-    try {
-        let data = {
-            address,
-            contact_person,
-            contact_number,
-            payment_mode,
-            credit_term
+    let result= confirm("Are you sure you want to update the supplier?");
+    if(result == true) {
+        try {
+            let data = {
+                address,
+                contact_person,
+                contact_number,
+                payment_mode,
+                credit_term
+            }
+            const response = await axios.put(`/suppliers/${supplier_id}`, data);
+            alert('Successfully updated supplier!!!');
+            location.reload();
         }
-        const response = await axios.put(`/suppliers/${supplier_id}`, data);
-        alert('Successfully updated supplier!!!');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }
 
