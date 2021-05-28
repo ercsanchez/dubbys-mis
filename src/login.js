@@ -51,6 +51,6 @@ loginForm.addEventListener('submit', event => {
     console.log(enteredEmail, enteredPassword);
 
     // change this after finalization
-    // login(enteredEmail, enteredPassword);
-    loginUser('admin@example.com', 'eLate5');
+    loginUser(enteredEmail, enteredPassword);
+    // loginUser('admin@example.com', 'eLate5');
 });

@@ -8,19 +8,8 @@
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./assets/styles/style.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
-    <script src="./src/login.js" defer></script>
+    <script src="./src/register.js" defer type="module"></script>
     <title>DUB Inventory System</title>
-<!--
-    <style type="text/css">
-        body{
-
-    background-image: url(images/banner-image.jpg);
-    background-repeat: no-repeat;
-    overflow: hidden;
-    background-size: cover;
-
-}
-    </style>-->
 </head>
 
 <body>
@@ -31,13 +20,19 @@
     </div>
 
     <div class="d-flex justify-content-center align-items-center login-container">
-        <form  action="" class="login-form text-center" id="login-form">
-            <h1 class="mb-5 font-weight-light text-uppercase">Login</h1>
+        <form  action="" class="login-form text-center" id="register-form">
+            <h1 class="mb-5 font-weight-light text-uppercase">Register</h1>
+            <div class="form-group">
+                <input type="text" class="form-control rounded-pill form-control-lg" id="username" placeholder="Username">
+            </div>
             <div class="form-group">
                 <input type="text" class="form-control rounded-pill form-control-lg" id="email" placeholder="Email">
             </div>
             <div class="form-group">
                 <input type="password" class="form-control rounded-pill form-control-lg" id="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control rounded-pill form-control-lg" id="passwordConfirm" placeholder="Password confirm">
             </div>
             <!-- <div class="forgot-link form-group d-flex justify-content-between align-items-center">
                 <div class="form-check">
@@ -46,8 +41,8 @@
                 </div>
                 <a href="#">Forgot Password?</a>
             </div> -->
-            <button type="submit" class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase" >Log in</button>
-            <p class="mt-1 font-weight-normal">Don't have an account? <a href="register.html"><strong>Register Now</strong></a></p>
+            <button type="submit" class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase" >Register</button>
+            <p class="mt-1 font-weight-normal">Already have an account? <a href="login.html" id="login-link"><strong>Login Now</strong></a></p>
         </form>
     </div>
 
