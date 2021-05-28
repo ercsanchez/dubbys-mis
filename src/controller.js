@@ -114,39 +114,45 @@ export async function addItem(name, category_id, description, unit_of_measure) {
 }
 
 export async function deleteItem(name) {
-    try {
-        const getItemResponse = await axios.get('/items');
-        console.log(getItemResponse.data.data.items);
-        for (const item of getItemResponse.data.data.items) {
-            if (item.name === name) {
-                const response = await axios.delete(`/items/${item.id}`);
-                console.log('response.data for delete:', response.data);
-                break
+    let result= confirm("Are you sure you want to delete the item?");
+    if(result == true) {
+        try {
+            const getItemResponse = await axios.get('/items');
+            console.log(getItemResponse.data.data.items);
+            for (const item of getItemResponse.data.data.items) {
+                if (item.name === name) {
+                    const response = await axios.delete(`/items/${item.id}`);
+                    console.log('response.data for delete:', response.data);
+                    break
+                }
             }
+            alert('Successfully deleted item!!!');
+            location.reload();
         }
-        alert('Successfully deleted item!!!');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }
 
 export async function updateItem(item_id, category_id, description, unit_of_measure) {
-    try {
-        let data = {
-            category_id,
-            description,
-            unit_of_measure
+    let result= confirm("Are you sure you want to update the item?");
+    if(result == true) {
+        try {
+            let data = {
+                category_id,
+                description,
+                unit_of_measure
+            }
+            const response = await axios.put(`/items/${item_id}`, data);
+            alert('Successfully updated item!!!');
+            location.reload();
         }
-        const response = await axios.put(`/items/${item_id}`, data);
-        alert('Successfully updated item!!!');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }
 
