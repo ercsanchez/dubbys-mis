@@ -20,10 +20,15 @@ const updatePurchaseForm = document.querySelector('#updatePurchaseForm');
 const updateIDSelect = document.querySelector('#updateID');
 // const updateName = document.querySelector('#updateName');
 
+document.querySelector('.logout a').text = localStorage.getItem('username');
 
 if (!axios.defaults.headers.common['Authorization'] || axios.defaults.headers.common['Authorization'] !== localStorage.getItem('jwt')) {
     alert('You are unauthorized. Please log in.');
     logoutUser();
+}
+
+if (localStorage.getItem('username')) {
+    document.querySelector('.logout a').text = localStorage.getItem('username');
 }
 
 if (!('listOfItems' in localStorage)) {

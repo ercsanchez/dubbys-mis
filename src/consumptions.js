@@ -16,6 +16,10 @@ if (!axios.defaults.headers.common['Authorization'] || axios.defaults.headers.co
     logoutUser();
 }
 
+if (localStorage.getItem('username')) {
+    document.querySelector('.logout a').text = localStorage.getItem('username');
+}
+
 if (!('listOfItems' in localStorage)) {
     getAllItems();
 } 

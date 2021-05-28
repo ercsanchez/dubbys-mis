@@ -24,6 +24,7 @@ async function loginUser(email, password) {
         console.log('response.data.token', response.data.token)
         console.log('axios.defaults.headers.common[\'Authorization\']:', axios.defaults.headers.common['Authorization']);
         localStorage.setItem('jwt', 'Bearer ' + response.data.token);
+        localStorage.setItem('username', response.data.data.user.username);
 
         // axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
 
