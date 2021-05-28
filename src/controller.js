@@ -356,40 +356,46 @@ export async function addPurchase(item_id, quantity, cost, supplier_id) {
 }
 
 export async function deletePurchase(purchase_id) {
-    try {
-        let listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
-        console.log('listOfPurchases:', listOfPurchases);
-        for (const purchase of listOfPurchases) {
-            if (purchase.id === purchase_id) {
-                const response = await axios.delete(`/purchases/${purchase.id}`);
-                console.log('response.data for delete:', response.data);
-                break
+    let result= confirm("Are you sure you want to delete the purchase?");
+    if(result == true) {
+        try {
+            let listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
+            console.log('listOfPurchases:', listOfPurchases);
+            for (const purchase of listOfPurchases) {
+                if (purchase.id === purchase_id) {
+                    const response = await axios.delete(`/purchases/${purchase.id}`);
+                    console.log('response.data for delete:', response.data);
+                    break
+                }
             }
+            alert('Successfully deleted purchase entry!!!');
+            location.reload();
         }
-        alert('Successfully deleted purchase entry!!!');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }
 
 export async function updatePurchase(purchase_id, quantity, cost, supplier_id) {
-    try {
-        let data = {
-            quantity,
-            cost,
-            supplier_id
+    let result= confirm("Are you sure you want to update the purchase?");
+    if(result == true) {
+        try {
+            let data = {
+                quantity,
+                cost,
+                supplier_id
+            }
+            const response = await axios.put(`/purchases/${purchase_id}`, data);
+            console.log(response);
+            alert('Successfully updated purchase entry!!!');
+            location.reload();
         }
-        const response = await axios.put(`/purchases/${purchase_id}`, data);
-        console.log(response);
-        alert('Successfully updated purchase entry!!!');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }
 
