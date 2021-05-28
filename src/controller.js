@@ -434,8 +434,6 @@ export async function displayAllConsumptions() {
             optionItemName.text = item.name;
             addItemNameSelect.append(optionItemName);
         }
-
-
     }
     catch (err) {
         alert(err.message);
@@ -492,5 +490,64 @@ export async function updateConsumption(consumption_id, quantity) {
     catch (err) {
         alert(err.message);
         console.error('err.response', err.response);
+    }
+}
+
+export async function displayAllWriteoffs() {
+    try {
+        const response = await axios.get('/writeoffs');
+        const listOfWriteoffs = response.data.data.writeoffs;
+        localStorage.setItem('listOfWriteoffs', JSON.stringify(listOfWriteoffs));
+        const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+        console.log('listOfWriteoffs:', listOfWriteoffs);
+        const rowWriteoffTemplate = document.querySelector('#row-writeoff-template');
+        const tableWriteoffs = document.querySelector('#table-writeoffs');
+        const addItemNameSelect = document.querySelector('#addItemName');
+        // const deleteIDSelect = document.querySelector('#deleteID');
+        // const updateIDSelect = document.querySelector('#updateID');
+        for (const writeoff of listOfWriteoffs) {
+            const rowWriteoff = document.importNode(rowWriteoffTemplate.content, true).firstElementChild;
+            rowWriteoff.children[0].textContent = writeoff.id;
+            rowWriteoff.children[1].textContent = writeoff.item;
+            rowWriteoff.children[2].textContent = writeoff.quantity;
+            rowWriteoff.children[3].textContent = writeoff.unit_of_measure;
+            rowWriteoff.children[4].textContent = writeoff.just_cause;
+            rowWriteoff.children[5].textContent = new Date(writeoff.created_at).toGMTString();
+            tableWriteoffs.append(rowWriteoff);
+
+            // const optionID = document.createElement('option');
+            // optionID.value = consumption.id;
+            // optionID.text = consumption.id;
+            // deleteIDSelect.append(optionID);
+            // updateIDSelect.append(document.importNode(optionID, true));
+        }
+        for (const item of listOfItems) {
+            const optionItemName = document.createElement('option');
+            optionItemName.value = item.name;
+            optionItemName.text = item.name;
+            addItemNameSelect.append(optionItemName);
+        }
+    }
+    catch (err) {
+        alert(err.message);
+        console.error('err.response:', err.response)
+    }
+}
+
+export async function addWriteoff(item_id, quantity, just_cause) {
+    try{
+        let data = {
+            item_id,
+            quantity,
+            just_cause
+        }
+        const response = await axios.post('/writeoffs', data);
+        console.log('response.data:', response.data);
+        alert('Successfully added write-off entry!!!');
+        location.reload();
+    }
+    catch (err) {
+        alert(err.message);
+        console.error('err.response:', err.response)
     }
 }

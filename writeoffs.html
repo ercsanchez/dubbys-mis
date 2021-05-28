@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="./assets/styles/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="./src/consumptions.js" defer type="module"></script>
+  <script src="./src/writeoffs.js" defer type="module"></script>
 
 </head>
 <body>
@@ -28,7 +28,7 @@
    </div>  
    <ul class="lisst-unstyled components">
         
-        <li>
+        <li >
             <a href="index.html" ><span class="las la-list-alt"></span><span>Inventory</span></a>
         </li>
         
@@ -38,10 +38,10 @@
         <li>
             <a href="purchases.html"><span class="las la-folder-plus"></span><span>Purchases</span></a>
         </li>
-        <li class="active">
+        <li>
             <a href="consumptions.html"><span class="las la-folder-minus"></span><span>Consumptions</span></a>
         </li>
-        <li>
+        <li class="active">
             <a href="writeoffs.html"><span class="las la-clipboard-list"></span><span>Write-Offs</span></a>
         </li>
 
@@ -65,13 +65,13 @@
 <!--3 buttons-->
     <div class="row">  
       <div class="col-md-2">
-        <button onclick="document.getElementById('addConsumptionModal').style.display='block'"  class="btn btn-block btn-primary"><i class="fa fa-plus"></i>Add Consumption</button>
+        <button onclick="document.getElementById('addWriteoffModal').style.display='block'"  class="btn btn-block btn-primary"><i class="fa fa-plus"></i>Add Write-off</button>
       </div>
      <div class="col-md-2"> 
-          <button onclick="document.getElementById('deleteConsumptionModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-minus"></i>Delete Consumption</button>
+          <button onclick="document.getElementById('deleteWriteoffModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-minus"></i>Delete Write-off</button>
       </div>
       <div class="col-md-2">
-        <button onclick="document.getElementById('updateConsumptionModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-edit"></i>Update Consumption</button>
+        <button onclick="document.getElementById('updateWriteoffModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-edit"></i>Update Write-off</button>
       </div>
     </div>
 
@@ -79,16 +79,18 @@
 
 <!--  table  -->
 <div>
-<table id="table-consumptions">
+<table id="table-writeoffs">
   <tr>
     <th>ID</th>
     <th>Item</th>
     <th>Quantity</th>
     <th>Unit of Measure</th>
+    <th>Reason</th>
     <th>Date</th>
   </tr>
-  <template id="row-consumption-template">
-    <tr class='row-consumption'>
+  <template id="row-writeoff-template">
+    <tr class='row-writeoff'>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -99,16 +101,16 @@
 </table>
 </div>
 
-<!--modal form for add Consumption  -->
-<div id="addConsumptionModal" class="modal">
-  <span onclick="document.getElementById('addConsumptionModal').style.display='none'" class="close" title="Close Modal">×</span>
-  <form class="modal-content animate" action="" id="addConsumptionForm">
+<!--modal form for add Write-off  -->
+<div id="addWriteoffModal" class="modal">
+  <span onclick="document.getElementById('addWriteoffModal').style.display='none'" class="close" title="Close Modal">×</span>
+  <form class="modal-content animate" action="" id="addWriteoffForm">
   <div class="addItem-container">
     <div class="row">
         <div class="col-8">  <!-- col-6-->
             <div class="card">
                 <div class="card-header text-center">
-                  <h1 class="mb-5 font-weight-light text-uppercase">Add Consumption</h1>
+                  <h1 class="mb-5 font-weight-light text-uppercase">Add Writeoff</h1>
                 </div>
                 <div class="card-body">
                     <form action="" method="post" name="myForm">
@@ -120,14 +122,18 @@
                           </select>
                         </div>      
                         <div class="form-group">
-                          <label >Quantity</label>
+                          <label>Quantity</label>
                           <input type="number" step="any" placeholder="Quantity" name="quantity" class="form-control" id="addQuantity" required="">
                         </div>  
                         <div class="form-group">
-                          <label >Unit of Measure</label>
+                          <label>Unit of Measure</label>
                           <select id="addUnitOfMeasure" name="unitofMeasure" required="">
                             <option value=""></option>
                           </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Reason for write-off</label>
+                          <input type="text" placeholder="Reason for write-off" name="reason" class="form-control" id="addReason" required="">
                         </div>         
                         <br>
                         <input type="submit" name="submit" value ="Add" class="btn btn-primary">
@@ -144,15 +150,15 @@
 <!--end of modal form for add Consumption -->
 
 <!--modal form for delete Consumption  -->
-<div id="deleteConsumptionModal" class="modal">
-  <span onclick="document.getElementById('deleteConsumptionModal').style.display='none'" class="close" title="Close Modal">×</span>
-  <form class="modal-content animate" action="" id="deleteConsumptionForm">
+<div id="deleteWriteoffModal" class="modal">
+  <span onclick="document.getElementById('deleteWriteoffModal').style.display='none'" class="close" title="Close Modal">×</span>
+  <form class="modal-content animate" action="" id="deleteWriteoffForm">
   <div class="addItem-container">
     <div class="row">
         <div class="col-8">  <!-- col-6-->
             <div class="card">
                 <div class="card-header text-center">
-                  <h1 class="mb-5 font-weight-light text-uppercase">Delete Consumption</h1>
+                  <h1 class="mb-5 font-weight-light text-uppercase">Delete Writeoff</h1>
                 </div>
                 <div class="card-body">
                     <form action="" method="post" name="myForm">
@@ -182,6 +188,10 @@
                         <select id="deleteUnitOfMeasure" name="unitofMeasure" required="">
                           <option value=""></option>
                         </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Reason for write-off</label>
+                        <input type="text" placeholder="Reason for write-off" name="reason" class="form-control" id="deleteReason" required="">
                       </div>         
                       <br>
                       <input type="submit" name="submit" value ="Delete" class="btn btn-primary">
@@ -200,15 +210,15 @@
 
 
 <!--modal form for update Consumption  -->
-<div id="updateConsumptionModal" class="modal">
+<div id="updateWriteoffModal" class="modal">
   <span onclick="document.getElementById('updateConsumptionModal').style.display='none'" class="close" title="Close Modal">×</span>
-  <form class="modal-content animate" action="" id="updateConsumptionForm">
+  <form class="modal-content animate" action="" id="updateWriteoffForm">
   <div class="addItem-container">
     <div class="row">
         <div class="col-8">  <!-- col-6-->
             <div class="card">
                 <div class="card-header text-center">
-                  <h1 class="mb-5 font-weight-light text-uppercase">Update Consumption</h1>
+                  <h1 class="mb-5 font-weight-light text-uppercase">Update Writeoff</h1>
                 </div>
                 <div class="card-body">
                     <form action="" method="post" name="myForm">
@@ -235,7 +245,11 @@
                         <select id="updateUnitOfMeasure" name="unitofMeasure" required="">
                           <option value=""></option>
                         </select>
-                      </div>         
+                      </div>
+                      <div class="form-group">
+                        <label>Reason for write-off</label>
+                        <input type="text" placeholder="Reason for write-off" name="reason" class="form-control" id="updateReason" required="">
+                      </div>              
                       <br>
                       <input type="submit" name="submit" value ="Update" class="btn btn-primary">
                       <input type="reset" name="reset" value ="Reset" class="btn btn-primary">
