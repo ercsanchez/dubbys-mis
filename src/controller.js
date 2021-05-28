@@ -504,7 +504,7 @@ export async function displayAllWriteoffs() {
         const tableWriteoffs = document.querySelector('#table-writeoffs');
         const addItemNameSelect = document.querySelector('#addItemName');
         const deleteIDSelect = document.querySelector('#deleteID');
-        // const updateIDSelect = document.querySelector('#updateID');
+        const updateIDSelect = document.querySelector('#updateID');
         for (const writeoff of listOfWriteoffs) {
             const rowWriteoff = document.importNode(rowWriteoffTemplate.content, true).firstElementChild;
             rowWriteoff.children[0].textContent = writeoff.id;
@@ -519,7 +519,7 @@ export async function displayAllWriteoffs() {
             optionID.value = writeoff.id;
             optionID.text = writeoff.id;
             deleteIDSelect.append(optionID);
-            // updateIDSelect.append(document.importNode(optionID, true));
+            updateIDSelect.append(document.importNode(optionID, true));
         }
         for (const item of listOfItems) {
             const optionItemName = document.createElement('option');
@@ -564,6 +564,22 @@ export async function deleteWriteoff(writeoff_id) {
             }
         }
         alert('Successfully deleted writeoff entry!!!');
+        location.reload();
+    }
+    catch (err) {
+        alert(err.message);
+        console.error('err.response', err.response);
+    }
+}
+
+export async function updateWriteoff(writeoff_id, quantity, just_cause) {
+    try {
+        let data = {
+            quantity,
+            just_cause
+        }
+        const response = await axios.put(`/writeoffs/${writeoff_id}`, data);
+        alert('Successfully updated write-off entry!!!');
         location.reload();
     }
     catch (err) {

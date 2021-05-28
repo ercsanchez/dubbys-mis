@@ -1,4 +1,4 @@
-import { logoutUser, getAllItems, displayAllWriteoffs, addWriteoff, deleteWriteoff } from "./controller.js";
+import { logoutUser, getAllItems, displayAllWriteoffs, addWriteoff, deleteWriteoff, updateWriteoff } from "./controller.js";
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwt');
 
@@ -7,8 +7,8 @@ const addItemNameSelect = document.querySelector('#addItemName');
 const addWriteoffForm = document.querySelector('#addWriteoffForm');
 const deleteWriteoffForm = document.querySelector('#deleteWriteoffForm');
 const deleteIDSelect = document.querySelector('#deleteID');
-// const updateConsumptionForm = document.querySelector('#updateConsumptionForm');
-// const updateIDSelect = document.querySelector('#updateID');
+const updateWriteoffForm = document.querySelector('#updateWriteoffForm');
+const updateIDSelect = document.querySelector('#updateID');
 
 if (!axios.defaults.headers.common['Authorization'] || axios.defaults.headers.common['Authorization'] !== localStorage.getItem('jwt')) {
     alert('You are unauthorized. Please log in.');
@@ -81,4 +81,42 @@ deleteWriteoffForm.addEventListener('submit', event => {
     event.preventDefault();
     let writeoff_id = event.currentTarget.querySelector('#deleteID').value;
     deleteWriteoff(writeoff_id);
+});
+
+updateIDSelect.addEventListener('change', event => {
+    let entered_writeoff_id = updateIDSelect.value;
+    // MUST RETRIEVE LOCALSTORAGE FOR EVERY EVENT
+    const listOfWriteoffs = JSON.parse(localStorage.getItem('listOfWriteoffs'));
+    let 
+        // cannot be updated
+        item, 
+        unit_of_measure,
+        // can be updated
+        quantity,
+        just_cause;
+    for (const writeoff of listOfWriteoffs) {
+        if (writeoff.id === entered_writeoff_id) {
+            item = writeoff.item;
+            unit_of_measure = writeoff.unit_of_measure;
+            quantity = writeoff.quantity;
+            just_cause = writeoff.just_cause;
+        }
+    }
+    // cannot be updated
+    document.querySelector('#updateItemName').firstElementChild.text = item;
+    document.querySelector('#updateUnitOfMeasure').firstElementChild.text = unit_of_measure;
+    // document.querySelector('#updateUnitOfMeasure').firstElementChild.value = unit_of_measure;
+
+    // can be updated
+    console.log('just_cause', just_cause);
+    document.querySelector('#updateQuantity').value = quantity;
+    document.querySelector('#updateReason').value = just_cause;
+});
+
+updateWriteoffForm.addEventListener('submit', event => {
+    event.preventDefault();
+    let writeoff_id = event.currentTarget.querySelector('#updateID').value;
+    let quantity = event.currentTarget.querySelector('#updateQuantity').value;
+    let just_cause = event.currentTarget.querySelector('#updateReason').value;
+    updateWriteoff(writeoff_id, quantity, just_cause);
 });
