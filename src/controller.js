@@ -39,11 +39,11 @@ export async function getAllCategories() {
 export async function displayAllItems() {
     try{
         const responseItems = await axios.get('/items');
-        const responsePurchases = await axios.get('/purchases');
-        const responseConsumptions = await axios.get('/consumptions');
+        // const responsePurchases = await axios.get('/purchases');
+        // const responseConsumptions = await axios.get('/consumptions');
         const listOfItems = responseItems.data.data.items;
-        const listOfPurchases = responsePurchases.data.data.purchases;
-        const listOfConsumptions = responseConsumptions.data.data.consumptions;
+        // const listOfPurchases = responsePurchases.data.data.purchases;
+        // const listOfConsumptions = responseConsumptions.data.data.consumptions;
         localStorage.setItem('listOfItems', JSON.stringify(listOfItems));
         console.log('listOfItems: ', listOfItems);
         const rowItemTemplate = document.querySelector('#row-item-template');
@@ -54,22 +54,18 @@ export async function displayAllItems() {
         for (const item of listOfItems) {
             const rowItem = document.importNode(rowItemTemplate.content, true).firstElementChild;
             for (const property in item) {
-                // if (typeof(property) == 'undefined') {
-                //     item[property] = '';
-                // }
                 rowItem.children[0].textContent = item.name;
                 rowItem.children[1].textContent = item.category;
                 rowItem.children[2].textContent = item.description;
                 rowItem.children[3].textContent = item.quantity;
                 rowItem.children[4].textContent = item.unit_of_measure;
                 tableItems.append(rowItem);
-
-                const optionName = document.createElement('option');
-                optionName.value = item.name;
-                optionName.text = item.name;
-                deleteNameSelect.append(optionName);
-                updateNameSelect.append(document.importNode(optionName, true));
             }
+            const optionName = document.createElement('option');
+            optionName.value = item.name;
+            optionName.text = item.name;
+            deleteNameSelect.append(optionName);
+            updateNameSelect.append(document.importNode(optionName, true));
         }
                 // let qty = 0;
                 // for (const purchase of listOfPurchases) {
@@ -78,15 +74,6 @@ export async function displayAllItems() {
                 //     }
                 // }
                 // rowItem.children[3].textContent = parseFloat(item.quantity) + qty;
-
-        // for (const item of listOfItems) {
-        //     const optionName = document.createElement('option');
-        //     optionName.value = item.name;
-        //     optionName.text = item.name;
-        //     deleteNameSelect.append(optionName);
-        //     updateNameSelect.append(document.importNode(optionName, true));
-        // }
-
     }
     catch (err) {
         alert(err.message);
