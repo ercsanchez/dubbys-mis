@@ -7,9 +7,9 @@ axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwt');
 
 // MUST RETRIEVE LOCALSTORAGE FOR EVERY EVENT!!!!!!!!!!!!!
 // REFACTOR THIS AND PLACE INSIDE EVENT LISTENERS
-const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
-const listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
-const listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
+// const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+// const listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
+// const listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
 
 const logoutBtn = document.querySelector('#btn-logout');
 const addPurchaseForm = document.querySelector('#addPurchaseForm');
@@ -56,6 +56,7 @@ logoutBtn.addEventListener('click', event => {
 addItemNameSelect.addEventListener('change', event => {
     let entered_item_name = addItemNameSelect.value;
     let unit_of_measure;
+    const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
     for (const item of listOfItems) {
         if (item.name === entered_item_name) {
             unit_of_measure = item.unit_of_measure;
@@ -74,6 +75,8 @@ addPurchaseForm.addEventListener('submit', event => {
     let entered_cost = event.currentTarget.querySelector('#addCost').value;
     let entered_supplierName = event.currentTarget.querySelector('#addSupplierName').value;
     let item_id, supplier_id;
+    const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+    const listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
     for (const item of listOfItems) {
         if (item.name === entered_itemName) {
             item_id = item.id;
@@ -91,6 +94,7 @@ addPurchaseForm.addEventListener('submit', event => {
 deleteIDSelect.addEventListener('change', event => {
     let entered_purchase_id = deleteIDSelect.value;
     let item_name, quantity, unit_of_measure, cost, supplier;
+    const listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
     for (const purchase of listOfPurchases) {
         if (purchase.id === entered_purchase_id) {
             item_name = purchase.item;
@@ -157,6 +161,7 @@ updatePurchaseForm.addEventListener('submit', event => {
     let cost = event.currentTarget.querySelector('#updateCost').value;
     let entered_supplier_name = event.currentTarget.querySelector('#updateSupplierName').value;
     let supplier_id;
+    const listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
     for (const supplier of listOfSuppliers) {
         if (supplier.name === entered_supplier_name) {
             supplier_id = supplier.id;

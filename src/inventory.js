@@ -20,6 +20,7 @@ if (!axios.defaults.headers.common['Authorization'] || axios.defaults.headers.co
     alert('You are unauthorized. Please log in.');
     logoutUser();
 }
+
 if (localStorage.getItem('username')) {
     document.querySelector('.logout a').text = localStorage.getItem('username');
 }

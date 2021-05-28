@@ -65,13 +65,13 @@
 <!--3 buttons-->
     <div class="row">  
       <div class="col-md-2">
-        <button onclick="document.getElementById('addConsumptionModal').style.display='block'"  class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Add Consumption</button>
+        <button onclick="document.getElementById('addConsumptionModal').style.display='block'"  class="btn btn-block btn-primary"><i class="fa fa-plus"></i>Add Consumption</button>
       </div>
      <div class="col-md-2"> 
-          <button onclick="document.getElementById('deleteConsumptionModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-minus"></i> Delete Consumption</button>
+          <button onclick="document.getElementById('deleteConsumptionModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-minus"></i>Delete Consumption</button>
       </div>
       <div class="col-md-2">
-        <button onclick="document.getElementById('updateConsumptionModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-edit"></i> Update Consumption</button>
+        <button onclick="document.getElementById('updateConsumptionModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-edit"></i>Update Consumption</button>
       </div>
     </div>
 
@@ -211,30 +211,35 @@
                   <h1 class="mb-5 font-weight-light text-uppercase">Update Consumption</h1>
                 </div>
                 <div class="card-body">
-                    <form action="" method="post" name="myForm" onsubmit="return validateForm()">
-                        <div class="form-group">
-                          <label >Item</label>
-                          <input type="text" placeholder="Item name" name="item" class="form-control" id="item" required="">
-                        </div>      
-                        <div class="form-group">
-                          <label >Quantity</label>
-                          <input type="text" placeholder="Quantity" name="quantity" class="form-control" id="quantity" required="">
-                        </div>  
-                        <div class="form-group">
-                          <label >Unit of Measure</label>
-                          <select id="unitofMeasure" name="unitofMeasure" required="">
-                            <option value="unit 1">kilogram</option>
-                            <option value="unit 2">gram</option>
-                            <option value="unit">can</option>
-                            <option value="unit">bottle</option>
-                            <option value="unit">piece</option>
-                            <option value="unit">pack</option>
-                          </select>
-                        </div>         
-                        <br>
-                        <input type="submit" name="submit" value ="Update" class="btn btn-primary" onclick="confirmUpdate()">
-                        <input type="reset" name="reset" value ="Reset" class="btn btn-primary">
-                        <br>
+                    <form action="" method="post" name="myForm">
+                      <div class="form-group">
+                        <label>ID</label>
+                        <!-- <input type="text" placeholder="Item name" name="item" class="form-control" id="item" required=""> -->
+                        <select name="" id="updateID" required="">
+                          <option value=""></option>
+                        </select>
+                      </div>  
+                      <div class="form-group">
+                        <label >Item</label>
+                        <!-- <input type="text" placeholder="Item name" name="item" class="form-control" id="updateItemName" required=""> -->
+                        <select name="" id="updateItemName">
+                          <option value=""></option>
+                        </select>
+                      </div>      
+                      <div class="form-group">
+                        <label >Quantity</label>
+                        <input type="text" placeholder="Quantity" name="quantity" class="form-control" id="updateQuantity" required="">
+                      </div>  
+                      <div class="form-group">
+                        <label >Unit of Measure</label>
+                        <select id="updateUnitOfMeasure" name="unitofMeasure" required="">
+                          <option value=""></option>
+                        </select>
+                      </div>         
+                      <br>
+                      <input type="submit" name="submit" value ="Update" class="btn btn-primary">
+                      <input type="reset" name="reset" value ="Reset" class="btn btn-primary">
+                      <br>
                     </form>  
             </div>
         </div>

@@ -54,36 +54,31 @@ export async function displayAllItems() {
         for (const item of listOfItems) {
             const rowItem = document.importNode(rowItemTemplate.content, true).firstElementChild;
             for (const property in item) {
-                if (typeof(property) == 'undefined') {
-                    item[property] = '';
-                }
-                // console.log('prop:', property, 'typeof:', typeof(property), 'value:', item[property]);
+                // if (typeof(property) == 'undefined') {
+                //     item[property] = '';
+                // }
+                rowItem.children[0].textContent = item.name;
+                rowItem.children[1].textContent = item.category;
+                rowItem.children[2].textContent = item.description;
+                rowItem.children[3].textContent = item.quantity;
+                rowItem.children[4].textContent = item.unit_of_measure;
+                tableItems.append(rowItem);
+
+                const optionName = document.createElement('option');
+                optionName.value = item.name;
+                optionName.text = item.name;
+                deleteNameSelect.append(optionName);
+                updateNameSelect.append(document.importNode(optionName, true));
             }
-            // console.log('rowItem.children:', rowItem);
-            rowItem.children[0].textContent = item.name;
-            rowItem.children[1].textContent = item.category;
-            rowItem.children[2].textContent = item.description;
-            
-            rowItem.children[4].textContent = item.unit_of_measure;
-            tableItems.append(rowItem);
-
-            const optionName = document.createElement('option');
-            optionName.value = item.name;
-            optionName.text = item.name;
-            deleteNameSelect.append(optionName);
-            updateNameSelect.append(document.importNode(optionName, true));
-
-            let qty = 0;
-            for (const purchase of listOfPurchases) {
-                if (purchase.item === item.name) {
-                    qty += parseFloat(purchase.quantity);
-                }
-            }
-
-            rowItem.children[3].textContent = parseFloat(item.quantity) + qty;
-
-
         }
+                // let qty = 0;
+                // for (const purchase of listOfPurchases) {
+                //     if (purchase.item === item.name) {
+                //         qty += parseFloat(purchase.quantity);
+                //     }
+                // }
+                // rowItem.children[3].textContent = parseFloat(item.quantity) + qty;
+
         // for (const item of listOfItems) {
         //     const optionName = document.createElement('option');
         //     optionName.value = item.name;
@@ -158,7 +153,7 @@ export async function updateItem(item_id, category_id, description, unit_of_meas
             description,
             unit_of_measure
         }
-        const getItemResponse = await axios.put(`/items/${item_id}`, data);
+        const response = await axios.put(`/items/${item_id}`, data);
         alert('Successfully updated item!!!');
         location.reload();
     }
@@ -191,14 +186,20 @@ export async function displayAllSuppliers() {
             rowSupplier.children[4].textContent = supplier.payment_mode;
             rowSupplier.children[5].textContent = supplier.credit_term;
             tableSuppliers.append(rowSupplier);
-        }
-        for (const supplier of listOfSuppliers) {
+
             const optionName = document.createElement('option');
             optionName.value = supplier.name;
             optionName.text = supplier.name;
             deleteNameSelect.append(optionName);
             updateNameSelect.append(document.importNode(optionName, true));
         }
+        // for (const supplier of listOfSuppliers) {
+        //     const optionName = document.createElement('option');
+        //     optionName.value = supplier.name;
+        //     optionName.text = supplier.name;
+        //     deleteNameSelect.append(optionName);
+        //     updateNameSelect.append(document.importNode(optionName, true));
+        // }
     }
     catch (err) {
         alert(err.message);
@@ -241,8 +242,6 @@ export async function addSupplier(name, address, contact_person, contact_number,
 
 export async function deleteSupplier(name) {
     try {
-        // const getItemResponse = await axios.get('/items');
-        // console.log(getItemResponse.data.data.items);
         let listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
         console.log('listOfSuppliers:', listOfSuppliers);
         for (const supplier of listOfSuppliers) {
@@ -270,7 +269,7 @@ export async function updateSupplier(supplier_id, address, contact_person, conta
             payment_mode,
             credit_term
         }
-        const getItemResponse = await axios.put(`/suppliers/${supplier_id}`, data);
+        const response = await axios.put(`/suppliers/${supplier_id}`, data);
         alert('Successfully updated supplier!!!');
         location.reload();
     }
@@ -311,6 +310,12 @@ export async function displayAllPurchases() {
             rowPurchase.children[5].textContent = purchase.supplier;
             rowPurchase.children[6].textContent = new Date(purchase.created_at).toGMTString();
             tablePurchases.append(rowPurchase);
+
+            const optionID = document.createElement('option');
+            optionID.value = purchase.id;
+            optionID.text = purchase.id;
+            deleteIDSelect.append(optionID);
+            updateIDSelect.append(document.importNode(optionID, true));
         }
         for (const item of listOfItems) {
             const optionItemName = document.createElement('option');
@@ -326,13 +331,13 @@ export async function displayAllPurchases() {
             deleteSupplierNameSelect.append(document.importNode(optionSupplierName, true));
             updateSupplierNameSelect.append(document.importNode(optionSupplierName, true));
         }
-        for (const purchase of listOfPurchases) {
-            const optionID = document.createElement('option');
-            optionID.value = purchase.id;
-            optionID.text = purchase.id;
-            deleteIDSelect.append(optionID);
-            updateIDSelect.append(document.importNode(optionID, true));
-        }
+        // for (const purchase of listOfPurchases) {
+        //     const optionID = document.createElement('option');
+        //     optionID.value = purchase.id;
+        //     optionID.text = purchase.id;
+        //     deleteIDSelect.append(optionID);
+        //     updateIDSelect.append(document.importNode(optionID, true));
+        // }
     }
     catch (err) {
         alert(err.message);
@@ -386,8 +391,8 @@ export async function updatePurchase(purchase_id, quantity, cost, supplier_id) {
             cost,
             supplier_id
         }
-        const getItemResponse = await axios.put(`/purchases/${purchase_id}`, data);
-        console.log(getItemResponse);
+        const response = await axios.put(`/purchases/${purchase_id}`, data);
+        console.log(response);
         alert('Successfully updated purchase entry!!!');
         location.reload();
     }
@@ -416,6 +421,12 @@ export async function displayAllConsumptions() {
             rowConsumption.children[3].textContent = consumption.unit_of_measure;
             rowConsumption.children[4].textContent = new Date(consumption.created_at).toGMTString();
             tableConsumptions.append(rowConsumption);
+
+            const optionID = document.createElement('option');
+            optionID.value = consumption.id;
+            optionID.text = consumption.id;
+            deleteIDSelect.append(optionID);
+            updateIDSelect.append(document.importNode(optionID, true));
         }
         for (const item of listOfItems) {
             const optionItemName = document.createElement('option');
@@ -449,40 +460,37 @@ export async function addConsumption(item_id, quantity) {
     }
 }
 
-// export async function deletePurchase(purchase_id) {
-//     try {
-//         let listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
-//         console.log('listOfPurchases:', listOfPurchases);
-//         for (const purchase of listOfPurchases) {
-//             if (purchase.id === purchase_id) {
-//                 const response = await axios.delete(`/purchases/${purchase.id}`);
-//                 console.log('response.data for delete:', response.data);
-//                 break
-//             }
-//         }
-//         alert('Successfully deleted purchase entry!!!');
-//         location.reload();
-//     }
-//     catch (err) {
-//         alert(err.message);
-//         console.error('err.response', err.response);
-//     }
-// }
+export async function deleteConsumption(consumption_id) {
+    try {
+        let listOfConsumptions = JSON.parse(localStorage.getItem('listOfConsumptions'));
+        console.log('listOfConsumptions:', listOfConsumptions);
+        for (const consumption of listOfConsumptions) {
+            if (consumption.id === consumption_id) {
+                const response = await axios.delete(`/consumptions/${consumption.id}`);
+                console.log('response.data for delete:', response.data);
+                break
+            }
+        }
+        alert('Successfully deleted consumption entry!!!');
+        location.reload();
+    }
+    catch (err) {
+        alert(err.message);
+        console.error('err.response', err.response);
+    }
+}
 
-// export async function updatePurchase(purchase_id, quantity, cost, supplier_id) {
-//     try {
-//         let data = {
-//             quantity,
-//             cost,
-//             supplier_id
-//         }
-//         const getItemResponse = await axios.put(`/purchases/${purchase_id}`, data);
-//         console.log(getItemResponse);
-//         alert('Successfully updated purchase entry!!!');
-//         location.reload();
-//     }
-//     catch (err) {
-//         alert(err.message);
-//         console.error('err.response', err.response);
-//     }
-// }
+export async function updateConsumption(consumption_id, quantity) {
+    try {
+        let data = {
+            quantity
+        }
+        const response = await axios.put(`/consumptions/${consumption_id}`, data);
+        alert('Successfully updated consumption entry!!!');
+        location.reload();
+    }
+    catch (err) {
+        alert(err.message);
+        console.error('err.response', err.response);
+    }
+}
