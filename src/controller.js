@@ -315,16 +315,8 @@ export async function displayAllPurchases() {
             optionSupplierName.value = supplier.name;
             optionSupplierName.text = supplier.name;
             addSupplierNameSelect.append(optionSupplierName);
-            deleteSupplierNameSelect.append(document.importNode(optionSupplierName, true));
             updateSupplierNameSelect.append(document.importNode(optionSupplierName, true));
         }
-        // for (const purchase of listOfPurchases) {
-        //     const optionID = document.createElement('option');
-        //     optionID.value = purchase.id;
-        //     optionID.text = purchase.id;
-        //     deleteIDSelect.append(optionID);
-        //     updateIDSelect.append(document.importNode(optionID, true));
-        // }
     }
     catch (err) {
         alert(err.message);
