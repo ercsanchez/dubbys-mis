@@ -556,37 +556,43 @@ export async function addWriteoff(item_id, quantity, just_cause) {
 }
 
 export async function deleteWriteoff(writeoff_id) {
-    try {
-        let listOfWriteoffs = JSON.parse(localStorage.getItem('listOfWriteoffs'));
-        console.log('listOfWriteoffs:', listOfWriteoffs);
-        for (const writeoff of listOfWriteoffs) {
-            if (writeoff.id === writeoff_id) {
-                const response = await axios.delete(`/writeoffs/${writeoff.id}`);
-                console.log('response.data for delete:', response.data);
-                break
+    let result= confirm("Are you sure you want to delete the write-off?");
+    if(result == true) {
+        try {
+            let listOfWriteoffs = JSON.parse(localStorage.getItem('listOfWriteoffs'));
+            console.log('listOfWriteoffs:', listOfWriteoffs);
+            for (const writeoff of listOfWriteoffs) {
+                if (writeoff.id === writeoff_id) {
+                    const response = await axios.delete(`/writeoffs/${writeoff.id}`);
+                    console.log('response.data for delete:', response.data);
+                    break
+                }
             }
+            alert('Successfully deleted write-off entry!!!');
+            location.reload();
         }
-        alert('Successfully deleted writeoff entry!!!');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }
 
 export async function updateWriteoff(writeoff_id, quantity, just_cause) {
-    try {
-        let data = {
-            quantity,
-            just_cause
+    let result= confirm("Are you sure you want to update the write-off?");
+    if(result == true) {
+        try {
+            let data = {
+                quantity,
+                just_cause
+            }
+            const response = await axios.put(`/writeoffs/${writeoff_id}`, data);
+            alert('Successfully updated write-off entry!!!');
+            location.reload();
         }
-        const response = await axios.put(`/writeoffs/${writeoff_id}`, data);
-        alert('Successfully updated write-off entry!!!');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }

@@ -117,7 +117,7 @@
                         <div class="form-group">
                           <label >Item</label>
                           <!-- <input type="text" placeholder="Item name" name="item" class="form-control" id="item" required=""> -->
-                          <select name="" id="addItemName">
+                          <select name="" id="addItemName" required="">
                             <option value=""></option>
                           </select>
                         </div>      
@@ -127,7 +127,7 @@
                         </div>  
                         <div class="form-group">
                           <label>Unit of Measure</label>
-                          <select id="addUnitOfMeasure" name="unitofMeasure" required="">
+                          <select id="addUnitOfMeasure" name="unitofMeasure">
                             <option value=""></option>
                           </select>
                         </div>
@@ -225,7 +225,7 @@
                       <div class="form-group">
                         <label>ID</label>
                         <!-- <input type="text" placeholder="Item name" name="item" class="form-control" id="item" required=""> -->
-                        <select name="" id="updateID">
+                        <select name="" id="updateID" required="">
                           <option value=""></option>
                         </select>
                       </div>  
@@ -237,15 +237,15 @@
                         </select>
                       </div>      
                       <div class="form-group">
-                        <label >Quantity</label>
-                        <input type="text" placeholder="Quantity" name="quantity" class="form-control" id="updateQuantity" required="">
-                      </div>  
-                      <div class="form-group">
                         <label >Unit of Measure</label>
                         <select id="updateUnitOfMeasure" name="unitofMeasure">
                           <option value=""></option>
                         </select>
                       </div>
+                      <div class="form-group">
+                        <label >Quantity</label>
+                        <input type="text" placeholder="Quantity" name="quantity" class="form-control" id="updateQuantity" required="">
+                      </div>  
                       <div class="form-group">
                         <label>Reason for write-off</label>
                         <input type="text" placeholder="Reason for write-off" name="reason" class="form-control" id="updateReason" required="">
