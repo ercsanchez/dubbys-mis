@@ -53,14 +53,13 @@ export async function displayAllItems() {
 
         for (const item of listOfItems) {
             const rowItem = document.importNode(rowItemTemplate.content, true).firstElementChild;
-            for (const property in item) {
-                rowItem.children[0].textContent = item.name;
-                rowItem.children[1].textContent = item.category;
-                rowItem.children[2].textContent = item.description;
-                rowItem.children[3].textContent = item.quantity;
-                rowItem.children[4].textContent = item.unit_of_measure;
-                tableItems.append(rowItem);
-            }
+            rowItem.children[0].textContent = item.name;
+            rowItem.children[1].textContent = item.category;
+            rowItem.children[2].textContent = item.description;
+            rowItem.children[3].textContent = item.quantity;
+            rowItem.children[4].textContent = item.unit_of_measure;
+            tableItems.append(rowItem);
+    
             const optionName = document.createElement('option');
             optionName.value = item.name;
             optionName.text = item.name;
