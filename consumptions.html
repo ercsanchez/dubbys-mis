@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DUB Inventory System</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link rel="stylesheet" href="./assets/styles/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="./src/consumptions.js" defer type="module"></script>
+
+</head>
+<body>
+<div class="wrapper">
+ <nav id="sidebar">
+   <div class="sidebar-header">
+    <h3>DUB Inventory System</h3>
+
+    <div class="logout">
+        <a href="#">#username</a>
+        <a href="login.html" class="btn btn-primary btn-sm" id="btn-logout" role="button" aria-pressed="true">Log Out</a>
+    </div>
+
+   </div>  
+   <ul class="lisst-unstyled components">
+        
+        <li >
+            <a href="index.html" ><span class="las la-list-alt"></span><span> Inventory</span></a>
+        </li>
+        
+        <li>
+             <a href="suppliers.html"><span class="las la-truck"></span><span> Suppliers</span></a>
+        </li>
+        <li>
+            <a href="purchases.html"><span class="las la-folder-plus"></span><span> Purchases</span></a>
+        </li>
+        <li class="active">
+            <a href="consumptions.html"><span class="las la-folder-minus"></span><span> Consumptions</span></a>
+        </li>
+        <li>
+            <a href="writeOffs.html"><span class="las la-clipboard-list"></span><span> Write-Offs</span></a>
+        </li>
+
+   </ul>
+ </nav>
+
+
+<div id="content">
+  
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <button type="button" id="sidebarCollapse" class="btn  btn-primary">
+        <i class="fas fa-align-left"></i>
+        <span>Menu</span>
+        
+      </button>
+    </div>
+      </nav>
+
+
+<!--3 buttons-->
+    <div class="row">  
+      <div class="col-md-2">
+        <button onclick="document.getElementById('addConsumptionModal').style.display='block'"  class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Add Consumption</button>
+      </div>
+     <div class="col-md-2"> 
+          <button onclick="document.getElementById('deleteConsumptionModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-minus"></i> Delete Consumption</button>
+      </div>
+      <div class="col-md-2">
+        <button onclick="document.getElementById('updateConsumptionModal').style.display='block'" class="btn btn-block btn-primary"><i class="fa fa-edit"></i> Update Consumption</button>
+      </div>
+    </div>
+
+<br>
+
+<!--  table  -->
+<div>
+<table id="table-consumptions">
+  <tr>
+    <th>ID</th>
+    <th>Item</th>
+    <th>Quantity</th>
+    <th>Unit of Measure</th>
+    <th>Date</th>
+  </tr>
+  <template id="row-consumption-template">
+    <tr class='row-consumption'>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr> 
+  </template> 
+</table>
+</div>
+
+<!--modal form for add Consumption  -->
+<div id="addConsumptionModal" class="modal">
+  <span onclick="document.getElementById('addConsumptionModal').style.display='none'" class="close" title="Close Modal">×</span>
+  <form class="modal-content animate" action="" id="addConsumptionForm">
+  <div class="addItem-container">
+    <div class="row">
+        <div class="col-8">  <!-- col-6-->
+            <div class="card">
+                <div class="card-header text-center">
+                  <h1 class="mb-5 font-weight-light text-uppercase">Add Consumption</h1>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post" name="myForm">
+                        <div class="form-group">
+                          <label >Item</label>
+                          <!-- <input type="text" placeholder="Item name" name="item" class="form-control" id="item" required=""> -->
+                          <select name="" id="addItemName">
+                            <option value=""></option>
+                          </select>
+                        </div>      
+                        <div class="form-group">
+                          <label >Quantity</label>
+                          <input type="number" step="any" placeholder="Quantity" name="quantity" class="form-control" id="addQuantity" required="">
+                        </div>  
+                        <div class="form-group">
+                          <label >Unit of Measure</label>
+                          <select id="addUnitOfMeasure" name="unitofMeasure" required="">
+                            <option value=""></option>
+                          </select>
+                        </div>         
+                        <br>
+                        <input type="submit" name="submit" value ="Add" class="btn btn-primary">
+                        <input type="reset" name="reset" value ="Reset" class="btn btn-primary">
+                        <br>
+                    </form>  
+            </div>
+        </div>
+    </div>
+  </div>
+  </div>
+  </form>
+</div>
+<!--end of modal form for add Consumption -->
+
+<!--modal form for delete Consumption  -->
+<div id="deleteConsumptionModal" class="modal">
+  <span onclick="document.getElementById('deleteConsumptionModal').style.display='none'" class="close" title="Close Modal">×</span>
+  <form class="modal-content animate" action="" id="deleteConsumptionForm">
+  <div class="addItem-container">
+    <div class="row">
+        <div class="col-8">  <!-- col-6-->
+            <div class="card">
+                <div class="card-header text-center">
+                  <h1 class="mb-5 font-weight-light text-uppercase">Delete Consumption</h1>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post" name="myForm">
+                      <div class="form-group">
+                        <label>ID</label>
+                        <!-- <input type="text" placeholder="Item name" name="item" class="form-control" id="item" required=""> -->
+                        <select name="" id="deleteID" required="">
+                          <option value=""></option>
+                        </select>
+                      </div>  
+                      <div class="form-group">
+                        <label >Item</label>
+                        <!-- <input type="text" placeholder="Item name" name="item" class="form-control" id="item" required=""> -->
+                        <select name="" id="deleteItemName">
+                          <option value=""></option>
+                        </select>
+                      </div>      
+                      <div class="form-group">
+                        <label >Quantity</label>
+                        <!-- <input type="text" placeholder="Quantity" name="quantity" class="form-control" id="quantity" required=""> -->
+                        <select id="deleteQuantity" name="quantity">
+                          <option value=""></option>
+                        </select>
+                      </div>  
+                      <div class="form-group">
+                        <label >Unit of Measure</label>
+                        <select id="deleteUnitOfMeasure" name="unitofMeasure" required="">
+                          <option value=""></option>
+                        </select>
+                      </div>         
+                      <br>
+                      <input type="submit" name="submit" value ="Delete" class="btn btn-primary">
+                      <input type="reset" name="reset" value ="Reset" class="btn btn-primary">
+                      <br>
+                    </form>  
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!--end of modal form for delete Consumption -->
+</div>
+
+
+<!--modal form for update Consumption  -->
+<div id="updateConsumptionModal" class="modal">
+  <span onclick="document.getElementById('updateConsumptionModal').style.display='none'" class="close" title="Close Modal">×</span>
+  <form class="modal-content animate" action="" id="updateConsumptionForm">
+  <div class="addItem-container">
+    <div class="row">
+        <div class="col-8">  <!-- col-6-->
+            <div class="card">
+                <div class="card-header text-center">
+                  <h1 class="mb-5 font-weight-light text-uppercase">Update Consumption</h1>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post" name="myForm" onsubmit="return validateForm()">
+                        <div class="form-group">
+                          <label >Item</label>
+                          <input type="text" placeholder="Item name" name="item" class="form-control" id="item" required="">
+                        </div>      
+                        <div class="form-group">
+                          <label >Quantity</label>
+                          <input type="text" placeholder="Quantity" name="quantity" class="form-control" id="quantity" required="">
+                        </div>  
+                        <div class="form-group">
+                          <label >Unit of Measure</label>
+                          <select id="unitofMeasure" name="unitofMeasure" required="">
+                            <option value="unit 1">kilogram</option>
+                            <option value="unit 2">gram</option>
+                            <option value="unit">can</option>
+                            <option value="unit">bottle</option>
+                            <option value="unit">piece</option>
+                            <option value="unit">pack</option>
+                          </select>
+                        </div>         
+                        <br>
+                        <input type="submit" name="submit" value ="Update" class="btn btn-primary" onclick="confirmUpdate()">
+                        <input type="reset" name="reset" value ="Reset" class="btn btn-primary">
+                        <br>
+                    </form>  
+            </div>
+        </div>
+    </div>
+  </div>
+  </div>
+  </form>
+</div>
+<!--end of modal form for update Consumption -->
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!-- for the sidebar-->
+<script>
+$(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+
+</script>
+<!-- add confirmation message-->
+<script>
+  function confirmAdd() {
+    alert("Add consumption success!");
+  }
+</script>
+
+<!-- delete confirmation message-->
+<script>
+  function confirmDelete() {
+   var result= confirm("Are you sure to delete an item?");
+     if(result == true)
+     {
+        return true;
+     }
+      else 
+      {
+        return false;
+      } 
+  }
+</script>
+
+<!-- update confirmation message-->
+<script>
+  function confirmUpdate() {
+    alert("Update consumption success!");
+  }
+</script>
+
+</body>
+</html>
