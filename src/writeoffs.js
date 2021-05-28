@@ -1,12 +1,12 @@
-import { logoutUser, getAllItems, displayAllWriteoffs, addWriteoff } from "./controller.js";
+import { logoutUser, getAllItems, displayAllWriteoffs, addWriteoff, deleteWriteoff } from "./controller.js";
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwt');
 
 const logoutBtn = document.querySelector('#btn-logout');
 const addItemNameSelect = document.querySelector('#addItemName');
-// const addWriteoffForm = document.querySelector('#addWriteoffForm');
-// const deleteConsumptionForm = document.querySelector('#deleteConsumptionForm');
-// const deleteIDSelect = document.querySelector('#deleteID');
+const addWriteoffForm = document.querySelector('#addWriteoffForm');
+const deleteWriteoffForm = document.querySelector('#deleteWriteoffForm');
+const deleteIDSelect = document.querySelector('#deleteID');
 // const updateConsumptionForm = document.querySelector('#updateConsumptionForm');
 // const updateIDSelect = document.querySelector('#updateID');
 
@@ -57,4 +57,28 @@ addWriteoffForm.addEventListener('submit', event => {
         }
     }
     addWriteoff(item_id, quantity, just_cause);
+});
+
+deleteIDSelect.addEventListener('change', event => {
+    let entered_writeoff_id = deleteIDSelect.value;
+    let item_name, quantity, unit_of_measure, just_cause;
+    const listOfWriteoffs = JSON.parse(localStorage.getItem('listOfWriteoffs'));
+    for (const writeoff of listOfWriteoffs) {
+        if (writeoff.id === entered_writeoff_id) {
+            item_name = writeoff.item;
+            quantity = writeoff.quantity;
+            unit_of_measure = writeoff.unit_of_measure;
+            just_cause = writeoff.just_cause;
+        }
+    }
+    document.querySelector('#deleteItemName').firstElementChild.text = item_name;
+    document.querySelector('#deleteQuantity').firstElementChild.text = quantity;
+    document.querySelector('#deleteUnitOfMeasure').firstElementChild.text = unit_of_measure;
+    document.querySelector('#deleteReason').value = just_cause;
+});
+
+deleteWriteoffForm.addEventListener('submit', event => {
+    event.preventDefault();
+    let writeoff_id = event.currentTarget.querySelector('#deleteID').value;
+    deleteWriteoff(writeoff_id);
 });

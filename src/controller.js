@@ -503,7 +503,7 @@ export async function displayAllWriteoffs() {
         const rowWriteoffTemplate = document.querySelector('#row-writeoff-template');
         const tableWriteoffs = document.querySelector('#table-writeoffs');
         const addItemNameSelect = document.querySelector('#addItemName');
-        // const deleteIDSelect = document.querySelector('#deleteID');
+        const deleteIDSelect = document.querySelector('#deleteID');
         // const updateIDSelect = document.querySelector('#updateID');
         for (const writeoff of listOfWriteoffs) {
             const rowWriteoff = document.importNode(rowWriteoffTemplate.content, true).firstElementChild;
@@ -515,10 +515,10 @@ export async function displayAllWriteoffs() {
             rowWriteoff.children[5].textContent = new Date(writeoff.created_at).toGMTString();
             tableWriteoffs.append(rowWriteoff);
 
-            // const optionID = document.createElement('option');
-            // optionID.value = consumption.id;
-            // optionID.text = consumption.id;
-            // deleteIDSelect.append(optionID);
+            const optionID = document.createElement('option');
+            optionID.value = writeoff.id;
+            optionID.text = writeoff.id;
+            deleteIDSelect.append(optionID);
             // updateIDSelect.append(document.importNode(optionID, true));
         }
         for (const item of listOfItems) {
@@ -549,5 +549,25 @@ export async function addWriteoff(item_id, quantity, just_cause) {
     catch (err) {
         alert(err.message);
         console.error('err.response:', err.response)
+    }
+}
+
+export async function deleteWriteoff(writeoff_id) {
+    try {
+        let listOfWriteoffs = JSON.parse(localStorage.getItem('listOfWriteoffs'));
+        console.log('listOfWriteoffs:', listOfWriteoffs);
+        for (const writeoff of listOfWriteoffs) {
+            if (writeoff.id === writeoff_id) {
+                const response = await axios.delete(`/writeoffs/${writeoff.id}`);
+                console.log('response.data for delete:', response.data);
+                break
+            }
+        }
+        alert('Successfully deleted writeoff entry!!!');
+        location.reload();
+    }
+    catch (err) {
+        alert(err.message);
+        console.error('err.response', err.response);
     }
 }
