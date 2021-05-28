@@ -456,37 +456,43 @@ export async function addConsumption(item_id, quantity) {
 }
 
 export async function deleteConsumption(consumption_id) {
-    try {
-        let listOfConsumptions = JSON.parse(localStorage.getItem('listOfConsumptions'));
-        console.log('listOfConsumptions:', listOfConsumptions);
-        for (const consumption of listOfConsumptions) {
-            if (consumption.id === consumption_id) {
-                const response = await axios.delete(`/consumptions/${consumption.id}`);
-                console.log('response.data for delete:', response.data);
-                break
+    let result= confirm("Are you sure you want to delete the consumption?");
+    if(result == true) {
+        try {
+            let listOfConsumptions = JSON.parse(localStorage.getItem('listOfConsumptions'));
+            console.log('listOfConsumptions:', listOfConsumptions);
+            for (const consumption of listOfConsumptions) {
+                if (consumption.id === consumption_id) {
+                    const response = await axios.delete(`/consumptions/${consumption.id}`);
+                    console.log('response.data for delete:', response.data);
+                    break
+                }
             }
+            alert('Successfully deleted consumption entry!!!');
+            location.reload();
         }
-        alert('Successfully deleted consumption entry!!!');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }
 
 export async function updateConsumption(consumption_id, quantity) {
-    try {
-        let data = {
-            quantity
+    let result= confirm("Are you sure you want to update the consumption?");
+    if(result == true) {
+        try {
+            let data = {
+                quantity
+            }
+            const response = await axios.put(`/consumptions/${consumption_id}`, data);
+            alert('Successfully updated consumption entry!!!');
+            location.reload();
         }
-        const response = await axios.put(`/consumptions/${consumption_id}`, data);
-        alert('Successfully updated consumption entry!!!');
-        location.reload();
-    }
-    catch (err) {
-        alert(err.message);
-        console.error('err.response', err.response);
+        catch (err) {
+            alert(err.message);
+            console.error('err.response', err.response);
+        }
     }
 }
 
