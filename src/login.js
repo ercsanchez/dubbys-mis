@@ -13,18 +13,19 @@ async function loginUser(email, password) {
             password: password
         }
         let token;
-        console.log('login credentials:', credentials)
+        // console.log('login credentials:', credentials)
         const response = await axios.post(
             '/users/login',
             credentials
         );
-        console.log('response:', response);
-        console.log('response.data.token:', response.data.token);
+        // console.log('response:', response);
+        // console.log('response.data.token:', response.data.token);
 
-        console.log('response.data.token', response.data.token)
+        // console.log('response.data.token', response.data.token)
         console.log('axios.defaults.headers.common[\'Authorization\']:', axios.defaults.headers.common['Authorization']);
         localStorage.setItem('jwt', 'Bearer ' + response.data.token);
         localStorage.setItem('username', response.data.data.user.username);
+        localStorage.setItem('role', response.data.data.user.role);
 
         // axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
 

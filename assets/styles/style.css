@@ -392,6 +392,17 @@ input[type=text], select, textarea {
 	display: table;
 }
 
+#content > nav, #content > nav > div
+{
+	margin-left: 0;
+	padding-left: 0;
+}
+
+.btn-del
+{
+	cursor: pointer;
+}
+
 @media screen and (max-width: 300px) {
 	.cancelbtn,
 	.signupbtn {
