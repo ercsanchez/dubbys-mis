@@ -49,28 +49,22 @@ export async function displayAllItems() {
             let response = await axios.get('/purchases');
             listOfPurchases = response.data.data.purchases;
             localStorage.setItem('listOfPurchases', JSON.stringify(listOfPurchases));
-            console.log('listOfPurchases:', listOfPurchases);
         } else {
             listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
-            console.log('listOfPurchases:', listOfPurchases);
         }
         if (!('listOfConsumptions' in localStorage)) {
             let response = await axios.get('/consumptions');
             listOfConsumptions = response.data.data.consumptions;
             localStorage.setItem('listOfConsumptions', JSON.stringify(listOfConsumptions));
-            console.log('listOfConsumptions:', listOfConsumptions);
         } else {
             listOfConsumptions = JSON.parse(localStorage.getItem('listOfConsumptions'));
-            console.log('listOfConsumptions:', listOfConsumptions);
         }
         if (!('listOfWriteoffs' in localStorage)) {
             let response = await axios.get('/writeoffs');
             listOfWriteoffs = response.data.data.writeoffs;
             localStorage.setItem('listOfWriteoffs', JSON.stringify(listOfWriteoffs));
-            console.log('listOfWriteoffs:', listOfWriteoffs);
         } else {
             listOfWriteoffs = JSON.parse(localStorage.getItem('listOfWriteoffs'));
-            console.log('listOfWriteoffs:', listOfWriteoffs);
         }
 
         const rowItemTemplate = document.querySelector('#row-item-template');
@@ -83,8 +77,9 @@ export async function displayAllItems() {
             rowItem.children[0].textContent = item.name;
             rowItem.children[1].textContent = item.category;
             rowItem.children[2].textContent = item.description;
-            // rowItem.children[3].textContent = item.quantity;
+
             rowItem.children[4].textContent = item.unit_of_measure;
+            rowItem.children[5].textContent = item.updated_by || item.created_by;
             tableItems.append(rowItem);
     
             const optionName = document.createElement('option');
@@ -109,7 +104,6 @@ export async function displayAllItems() {
                     itemQuantity -= Number(writeoff.quantity);
                 }
             }
-            console.log('itemQuantity:', itemQuantity);
             rowItem.children[3].textContent = itemQuantity;
         }
     }
