@@ -343,6 +343,7 @@ export async function displayAllPurchases() {
             rowPurchase.children[4].textContent = purchase.cost;
             rowPurchase.children[5].textContent = purchase.supplier;
             rowPurchase.children[6].textContent = new Date(purchase.created_at).toGMTString();
+            rowPurchase.children[7].textContent = purchase.updated_by || purchase.created_by;
             tablePurchases.append(rowPurchase);
 
             const optionID = document.createElement('option');
@@ -463,6 +464,7 @@ export async function displayAllConsumptions() {
             rowConsumption.children[2].textContent = consumption.quantity;
             rowConsumption.children[3].textContent = consumption.unit_of_measure;
             rowConsumption.children[4].textContent = new Date(consumption.created_at).toGMTString();
+            rowConsumption.children[5].textContent = consumption.updated_by || consumption.created_by;
             tableConsumptions.append(rowConsumption);
 
             const optionID = document.createElement('option');
@@ -572,6 +574,7 @@ export async function displayAllWriteoffs() {
             rowWriteoff.children[3].textContent = writeoff.unit_of_measure;
             rowWriteoff.children[4].textContent = writeoff.just_cause;
             rowWriteoff.children[5].textContent = new Date(writeoff.created_at).toGMTString();
+            rowWriteoff.children[6].textContent = writeoff.updated_by || writeoff.created_by;
             tableWriteoffs.append(rowWriteoff);
 
             const optionID = document.createElement('option');

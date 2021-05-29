@@ -105,7 +105,7 @@ updateIDSelect.addEventListener('change', event => {
     // cannot be updated
     document.querySelector('#updateItemName').firstElementChild.text = item;
     document.querySelector('#updateUnitOfMeasure').firstElementChild.text = unit_of_measure;
-    // document.querySelector('#updateUnitOfMeasure').firstElementChild.value = unit_of_measure;
+
 
     // can be updated
     console.log('just_cause', just_cause);
