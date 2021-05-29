@@ -1,4 +1,4 @@
-import { logoutUser, getAllCategories, displayAllItems, addItem, deleteItem, updateItem} from './controller.js';
+import { logoutUser, getAllCategories, displayAllItems, getAllItems, addItem, deleteItem, updateItem} from './controller.js';
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwt');
 // const token = localStorage.getItem('jwt');   // not needed
@@ -24,6 +24,7 @@ if (!axios.defaults.headers.common['Authorization'] || axios.defaults.headers.co
 if (localStorage.getItem('username')) {
     document.querySelector('.logout a').text = localStorage.getItem('username');
 }
+
 
 displayAllItems();
 getAllCategories();

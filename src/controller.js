@@ -45,7 +45,16 @@ export async function displayAllItems() {
         // const listOfPurchases = responsePurchases.data.data.purchases;
         // const listOfConsumptions = responseConsumptions.data.data.consumptions;
         localStorage.setItem('listOfItems', JSON.stringify(listOfItems));
-        console.log('listOfItems: ', listOfItems);
+        // let listOfItems;
+        // if (!('listOfItems' in localStorage)) {
+        //     let response = await axios.get('/items');
+        //     listOfItems = response.data.data.items;
+        //     localStorage.setItem('listOfItems', listOfItems);
+        //     console.log('listOfItems: ', listOfItems);
+        // } else {
+        //     listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+        //     console.log('listOfItems: ', listOfItems);
+        // }
         const rowItemTemplate = document.querySelector('#row-item-template');
         const tableItems = document.querySelector('#table-items');
         const deleteNameSelect = document.querySelector('#deleteName');
