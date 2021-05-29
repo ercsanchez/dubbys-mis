@@ -26,20 +26,21 @@
      </div>
      <ul class="lisst-unstyled components">
           <li class="active">
-              <a href="index.html" ><span class="las la-list-alt"></span><span>Inventory</span></a>
+              <a href="index.html" ><span class="las la-list-alt"></span> Inventory</span></a>
           </li>
           <li>
-               <a href="suppliers.html"><span class="las la-truck"></span><span>Suppliers</span></a>
+               <a href="suppliers.html"><span class="las la-truck"></span> Suppliers</span></a>
           </li>
           <li>
-              <a href="purchases.html"><span class="las la-folder-plus"></span><span>Purchases</span></a>
+              <a href="purchases.html"><span class="las la-folder-plus"></span> Purchases</span></a>
           </li>
           <li>
-              <a href="consumptions.html"><span class="las la-folder-minus"></span><span>Consumptions</span></a>
+              <a href="consumptions.html"><span class="las la-folder-minus"></span> Consumptions</span></a>
           </li>
           <li>
-              <a href="writeoffs.html"><span class="las la-clipboard-list"></span><span>Write-Offs</span></a>
+              <a href="writeoffs.html"><span class="las la-clipboard-list"></span> Write-Offs</span></a>
           </li>
+          <div id="userMenu"></div>
 
      </ul>
    </nav>
@@ -293,13 +294,16 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+  <script src="./src/helper.js"></script>
   <script>
-  $(document).ready(function () {
-              $('#sidebarCollapse').on('click', function () {
-                  $('#sidebar').toggleClass('active');
-              });
-          });
+
+  $(document).ready(function ()
+  {
+    if (isAdmin())
+    {
+      document.getElementById('userMenu').innerHTML = '<li><a href="users.html"><span class="las la-users"></span> Users</a></li>';
+    }
+  });
   </script>
 
   <!-- <script type="text/javascript">
