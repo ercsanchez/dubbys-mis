@@ -207,6 +207,7 @@ export async function displayAllSuppliers() {
             rowSupplier.children[3].textContent = supplier.contact_number;
             rowSupplier.children[4].textContent = supplier.payment_mode;
             rowSupplier.children[5].textContent = supplier.credit_term;
+            rowSupplier.children[6].textContent = supplier.updated_by || supplier.created_by;
             tableSuppliers.append(rowSupplier);
 
             const optionName = document.createElement('option');
