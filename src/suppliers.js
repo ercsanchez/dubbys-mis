@@ -2,7 +2,7 @@ import { logoutUser, displayAllSuppliers, addSupplier, deleteSupplier, updateSup
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwt');
 
-const listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
+// const listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
 
 const logoutBtn = document.querySelector('#btn-logout');
 const addSupplierForm = document.querySelector('#addSupplierForm');
@@ -55,6 +55,7 @@ updateName.addEventListener('change', event => {
         payment_mode, 
         credit_term;
     console.log(updateName.value);
+    let listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
     for (const supplier of listOfSuppliers) {
         if (supplier.name === entered_name) {
             address = supplier.address;
@@ -80,6 +81,7 @@ updateSupplierForm.addEventListener('submit', event => {
     let entered_payment_mode = event.currentTarget.querySelector('#updatePaymentMode').value;
     let entered_credit_term = event.currentTarget.querySelector('#updateCreditTerm').value;
     let supplier_id;
+    let listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
     for (const supplier of listOfSuppliers) {
         if (supplier.name === entered_name) {
             supplier_id = supplier.id;

@@ -3,8 +3,8 @@ import { logoutUser, getAllCategories, displayAllItems, getAllItems, addItem, de
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwt');
 // const token = localStorage.getItem('jwt');   // not needed
 
-const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
-const listOfCategories = JSON.parse(localStorage.getItem('listOfCategories'));
+// const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+// const listOfCategories = JSON.parse(localStorage.getItem('listOfCategories'));
 // console.log('Authorization header: ', axios.defaults.headers.common['Authorization']);
 // console.log('window origin: ', window.location.origin);
 // console.log('window href: ', window.location.href);
@@ -41,7 +41,7 @@ addItemForm.addEventListener('submit', event => {
     let name = event.currentTarget.querySelector('#addName').value;
     let category_id;
     let entered_category = event.currentTarget.querySelector('#addCategory').value;
-    // let listOfCategories = JSON.parse(localStorage.getItem('listOfCategories'));
+    let listOfCategories = JSON.parse(localStorage.getItem('listOfCategories'));
     // console.log('listOfCategories:', listOfCategories);
     for (const category of listOfCategories) {
         // console.log('category.name:', category.name);
@@ -76,7 +76,7 @@ updateName.addEventListener('change', event => {
     let category;
     let description;
     let unit_of_measure;
-    // let listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+    let listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
     console.log(listOfItems);
     console.log(updateName.value);
     for (const item of listOfItems) {
@@ -99,8 +99,8 @@ updateItemForm.addEventListener('submit', event => {
     let entered_description = event.currentTarget.querySelector('#updateDescription').value;
     let entered_unitOfMeasure = event.currentTarget.querySelector('#updateUnitOfMeasure').value;
     console.log('update form values:', entered_name, entered_category, entered_description, entered_unitOfMeasure);
-    // let listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
-    // let listOfCategories = JSON.parse(localStorage.getItem('listOfCategories'));
+    let listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+    let listOfCategories = JSON.parse(localStorage.getItem('listOfCategories'));
     let item_id;
     let category_id;
     for (const item of listOfItems) {
