@@ -42,13 +42,7 @@ addItemForm.addEventListener('submit', event => {
         }
     }
     let description = event.currentTarget.querySelector('#addDescription').value;
-    // let quantity = parseInt(event.currentTarget.querySelector('#addQuantity').value);
     let unit_of_measure = event.currentTarget.querySelector('#addUnitOfMeasure').value;
-    // let category = addCategoryField.value;
-    // let description = addDescriptionField.value;
-    // let quantity = addQuantityField.value;
-    // let unitofmeasure = addUnitOfMeasureField.value; 
-    // console.log(name, category_id, description, unit_of_measure);
     addItem(name, category_id, description, unit_of_measure);
 });
 
