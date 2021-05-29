@@ -38,23 +38,41 @@ export async function getAllCategories() {
 
 export async function displayAllItems() {
     try{
+
+        let listOfItems, listOfPurchases, listOfConsumptions, listOfWriteoffs;
+  
         const responseItems = await axios.get('/items');
-        // const responsePurchases = await axios.get('/purchases');
-        // const responseConsumptions = await axios.get('/consumptions');
-        const listOfItems = responseItems.data.data.items;
-        // const listOfPurchases = responsePurchases.data.data.purchases;
-        // const listOfConsumptions = responseConsumptions.data.data.consumptions;
+        listOfItems = responseItems.data.data.items;
         localStorage.setItem('listOfItems', JSON.stringify(listOfItems));
-        // let listOfItems;
-        // if (!('listOfItems' in localStorage)) {
-        //     let response = await axios.get('/items');
-        //     listOfItems = response.data.data.items;
-        //     localStorage.setItem('listOfItems', listOfItems);
-        //     console.log('listOfItems: ', listOfItems);
-        // } else {
-        //     listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
-        //     console.log('listOfItems: ', listOfItems);
-        // }
+
+        if (!('listOfPurchases' in localStorage)) {
+            let response = await axios.get('/purchases');
+            listOfPurchases = response.data.data.purchases;
+            localStorage.setItem('listOfPurchases', JSON.stringify(listOfPurchases));
+            console.log('listOfPurchases:', listOfPurchases);
+        } else {
+            listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
+            console.log('listOfPurchases:', listOfPurchases);
+        }
+        if (!('listOfConsumptions' in localStorage)) {
+            let response = await axios.get('/consumptions');
+            listOfConsumptions = response.data.data.consumptions;
+            localStorage.setItem('listOfConsumptions', JSON.stringify(listOfConsumptions));
+            console.log('listOfConsumptions:', listOfConsumptions);
+        } else {
+            listOfConsumptions = JSON.parse(localStorage.getItem('listOfConsumptions'));
+            console.log('listOfConsumptions:', listOfConsumptions);
+        }
+        if (!('listOfWriteoffs' in localStorage)) {
+            let response = await axios.get('/writeoffs');
+            listOfWriteoffs = response.data.data.writeoffs;
+            localStorage.setItem('listOfWriteoffs', JSON.stringify(listOfWriteoffs));
+            console.log('listOfWriteoffs:', listOfWriteoffs);
+        } else {
+            listOfWriteoffs = JSON.parse(localStorage.getItem('listOfWriteoffs'));
+            console.log('listOfWriteoffs:', listOfWriteoffs);
+        }
+
         const rowItemTemplate = document.querySelector('#row-item-template');
         const tableItems = document.querySelector('#table-items');
         const deleteNameSelect = document.querySelector('#deleteName');
@@ -65,7 +83,7 @@ export async function displayAllItems() {
             rowItem.children[0].textContent = item.name;
             rowItem.children[1].textContent = item.category;
             rowItem.children[2].textContent = item.description;
-            rowItem.children[3].textContent = item.quantity;
+            // rowItem.children[3].textContent = item.quantity;
             rowItem.children[4].textContent = item.unit_of_measure;
             tableItems.append(rowItem);
     
@@ -74,14 +92,26 @@ export async function displayAllItems() {
             optionName.text = item.name;
             deleteNameSelect.append(optionName);
             updateNameSelect.append(document.importNode(optionName, true));
+
+            let itemQuantity = 0;
+            for (const purchase of listOfPurchases) {
+                if (purchase.item === item.name) {
+                    itemQuantity += Number(purchase.quantity);
+                }
+            }
+            for (const consumption of listOfConsumptions) {
+                if (consumption.item === item.name) {
+                    itemQuantity -= Number(consumption.quantity);
+                }
+            }
+            for (const writeoff of listOfWriteoffs) {
+                if (writeoff.item === item.name) {
+                    itemQuantity -= Number(writeoff.quantity);
+                }
+            }
+            console.log('itemQuantity:', itemQuantity);
+            rowItem.children[3].textContent = itemQuantity;
         }
-                // let qty = 0;
-                // for (const purchase of listOfPurchases) {
-                //     if (purchase.item === item.name) {
-                //         qty += parseFloat(purchase.quantity);
-                //     }
-                // }
-                // rowItem.children[3].textContent = parseFloat(item.quantity) + qty;
     }
     catch (err) {
         alert(err.message);
@@ -107,7 +137,6 @@ export async function addItem(name, category_id, description, unit_of_measure) {
             name,
             category_id,
             description,
-            // quantity,    // delete since quantity should not be specified when adding an item
             unit_of_measure
         }
         const response = await axios.post('/items', data);
@@ -166,20 +195,18 @@ export async function updateItem(item_id, category_id, description, unit_of_meas
 
 export async function displayAllSuppliers() {
     try{
-        const response = await axios.get('/suppliers');
-        const listOfSuppliers = response.data.data.suppliers;
+        const responseSuppliers = await axios.get('/suppliers');
+        const listOfSuppliers = responseSuppliers.data.data.suppliers;
         localStorage.setItem('listOfSuppliers', JSON.stringify(listOfSuppliers));
+
         const rowSupplierTemplate = document.querySelector('#row-supplier-template');
         const tableSuppliers = document.querySelector('#table-suppliers');
         const deleteNameSelect = document.querySelector('#deleteName');
         const updateNameSelect = document.querySelector('#updateName');
+
         for (const supplier of listOfSuppliers) {
             const rowSupplier = document.importNode(rowSupplierTemplate.content, true).firstElementChild;
-            // for (const property in supplier) {
-            //     if (typeof(property) == 'undefined') {
-            //         item[property] = '';
-            //     }
-            // }
+
             rowSupplier.children[0].textContent = supplier.name;
             rowSupplier.children[1].textContent = supplier.address;
             rowSupplier.children[2].textContent = supplier.contact_person;
@@ -194,13 +221,6 @@ export async function displayAllSuppliers() {
             deleteNameSelect.append(optionName);
             updateNameSelect.append(document.importNode(optionName, true));
         }
-        // for (const supplier of listOfSuppliers) {
-        //     const optionName = document.createElement('option');
-        //     optionName.value = supplier.name;
-        //     optionName.text = supplier.name;
-        //     deleteNameSelect.append(optionName);
-        //     updateNameSelect.append(document.importNode(optionName, true));
-        // }
     }
     catch (err) {
         alert(err.message);
@@ -288,27 +308,39 @@ export async function updateSupplier(supplier_id, address, contact_person, conta
 
 export async function displayAllPurchases() {
     try{
-        const response = await axios.get('/purchases');
-        const listOfPurchases = response.data.data.purchases;
+        const responsePurchases = await axios.get('/purchases');
+        const listOfPurchases = responsePurchases.data.data.purchases;
         localStorage.setItem('listOfPurchases', JSON.stringify(listOfPurchases));
-        const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
-        const listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
+
+        let listOfItems, listOfSuppliers;
+  
+        if (!('listOfItems' in localStorage)) {
+            let response = await axios.get('/items');
+            listOfItems = response.data.data.items;
+            localStorage.setItem('listOfItems', JSON.stringify(listOfItems));
+        } else {
+            listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+        }
+        if (!('listOfSuppliers' in localStorage)) {
+            let response = await axios.get('/suppliers');
+            listOfSuppliers = response.data.data.suppliers;
+            localStorage.setItem('listOfSuppliers', JSON.stringify(listOfSuppliers));
+        } else {
+            listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
+        }
+
         const rowPurchaseTemplate = document.querySelector('#row-purchase-template');
         const tablePurchases = document.querySelector('#table-purchases');
         const addItemNameSelect = document.querySelector('#addItemName');
         const addSupplierNameSelect = document.querySelector('#addSupplierName');
-        console.log(addSupplierNameSelect);
+
         const deleteIDSelect = document.querySelector('#deleteID');
         const updateIDSelect = document.querySelector('#updateID');
         const updateSupplierNameSelect = document.querySelector('#updateSupplierName');
-        const deleteSupplierNameSelect = document.querySelector('#deleteSupplierName');
+
         for (const purchase of listOfPurchases) {
             const rowPurchase = document.importNode(rowPurchaseTemplate.content, true).firstElementChild;
-            // for (const property in supplier) {
-            //     if (typeof(property) == 'undefined') {
-            //         item[property] = '';
-            //     }
-            // }
+
             rowPurchase.children[0].textContent = purchase.id;
             rowPurchase.children[1].textContent = purchase.item;
             rowPurchase.children[2].textContent = purchase.quantity;
@@ -409,15 +441,26 @@ export async function updatePurchase(purchase_id, quantity, cost, supplier_id) {
 
 export async function displayAllConsumptions() {
     try {
-        const response = await axios.get('/consumptions');
-        const listOfConsumptions = response.data.data.consumptions;
+        const responseConsumptions = await axios.get('/consumptions');
+        const listOfConsumptions = responseConsumptions.data.data.consumptions;
         localStorage.setItem('listOfConsumptions', JSON.stringify(listOfConsumptions));
-        const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+
+        let listOfItems;
+  
+        if (!('listOfItems' in localStorage)) {
+            let response = await axios.get('/items');
+            listOfItems = response.data.data.items;
+            localStorage.setItem('listOfItems', JSON.stringify(listOfItems));
+        } else {
+            listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+        }
+
         const rowConsumptionTemplate = document.querySelector('#row-consumption-template');
         const tableConsumptions = document.querySelector('#table-consumptions');
         const addItemNameSelect = document.querySelector('#addItemName');
         const deleteIDSelect = document.querySelector('#deleteID');
         const updateIDSelect = document.querySelector('#updateID');
+
         for (const consumption of listOfConsumptions) {
             const rowConsumption = document.importNode(rowConsumptionTemplate.content, true).firstElementChild;
             rowConsumption.children[0].textContent = consumption.id;
@@ -506,16 +549,26 @@ export async function updateConsumption(consumption_id, quantity) {
 
 export async function displayAllWriteoffs() {
     try {
-        const response = await axios.get('/writeoffs');
-        const listOfWriteoffs = response.data.data.writeoffs;
+        const responseWriteoffs = await axios.get('/writeoffs');
+        const listOfWriteoffs = responseWriteoffs.data.data.writeoffs;
         localStorage.setItem('listOfWriteoffs', JSON.stringify(listOfWriteoffs));
-        const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
-        console.log('listOfWriteoffs:', listOfWriteoffs);
+
+        let listOfItems;
+  
+        if (!('listOfItems' in localStorage)) {
+            let response = await axios.get('/items');
+            listOfItems = response.data.data.items;
+            localStorage.setItem('listOfItems', JSON.stringify(listOfItems));
+        } else {
+            listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
+        }
+
         const rowWriteoffTemplate = document.querySelector('#row-writeoff-template');
         const tableWriteoffs = document.querySelector('#table-writeoffs');
         const addItemNameSelect = document.querySelector('#addItemName');
         const deleteIDSelect = document.querySelector('#deleteID');
         const updateIDSelect = document.querySelector('#updateID');
+
         for (const writeoff of listOfWriteoffs) {
             const rowWriteoff = document.importNode(rowWriteoffTemplate.content, true).firstElementChild;
             rowWriteoff.children[0].textContent = writeoff.id;
