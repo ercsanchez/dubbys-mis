@@ -1,13 +1,6 @@
 import { logoutUser, getAllCategories, displayAllItems, getAllItems, addItem, deleteItem, updateItem} from './controller.js';
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwt');
-// const token = localStorage.getItem('jwt');   // not needed
-
-// const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
-// const listOfCategories = JSON.parse(localStorage.getItem('listOfCategories'));
-// console.log('Authorization header: ', axios.defaults.headers.common['Authorization']);
-// console.log('window origin: ', window.location.origin);
-// console.log('window href: ', window.location.href);
 
 const logoutBtn = document.querySelector('#btn-logout');
 const addItemForm = document.querySelector('#addItemForm');
@@ -42,23 +35,14 @@ addItemForm.addEventListener('submit', event => {
     let category_id;
     let entered_category = event.currentTarget.querySelector('#addCategory').value;
     let listOfCategories = JSON.parse(localStorage.getItem('listOfCategories'));
-    // console.log('listOfCategories:', listOfCategories);
     for (const category of listOfCategories) {
-        // console.log('category.name:', category.name);
-        // console.log('entered_category:', entered_category);
         if (category.name === entered_category) {
             category_id = category.id;
             break;
         }
     }
     let description = event.currentTarget.querySelector('#addDescription').value;
-    // let quantity = parseInt(event.currentTarget.querySelector('#addQuantity').value);
     let unit_of_measure = event.currentTarget.querySelector('#addUnitOfMeasure').value;
-    // let category = addCategoryField.value;
-    // let description = addDescriptionField.value;
-    // let quantity = addQuantityField.value;
-    // let unitofmeasure = addUnitOfMeasureField.value; 
-    // console.log(name, category_id, description, unit_of_measure);
     addItem(name, category_id, description, unit_of_measure);
 });
 

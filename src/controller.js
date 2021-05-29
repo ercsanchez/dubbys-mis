@@ -49,28 +49,22 @@ export async function displayAllItems() {
             let response = await axios.get('/purchases');
             listOfPurchases = response.data.data.purchases;
             localStorage.setItem('listOfPurchases', JSON.stringify(listOfPurchases));
-            console.log('listOfPurchases:', listOfPurchases);
         } else {
             listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
-            console.log('listOfPurchases:', listOfPurchases);
         }
         if (!('listOfConsumptions' in localStorage)) {
             let response = await axios.get('/consumptions');
             listOfConsumptions = response.data.data.consumptions;
             localStorage.setItem('listOfConsumptions', JSON.stringify(listOfConsumptions));
-            console.log('listOfConsumptions:', listOfConsumptions);
         } else {
             listOfConsumptions = JSON.parse(localStorage.getItem('listOfConsumptions'));
-            console.log('listOfConsumptions:', listOfConsumptions);
         }
         if (!('listOfWriteoffs' in localStorage)) {
             let response = await axios.get('/writeoffs');
             listOfWriteoffs = response.data.data.writeoffs;
             localStorage.setItem('listOfWriteoffs', JSON.stringify(listOfWriteoffs));
-            console.log('listOfWriteoffs:', listOfWriteoffs);
         } else {
             listOfWriteoffs = JSON.parse(localStorage.getItem('listOfWriteoffs'));
-            console.log('listOfWriteoffs:', listOfWriteoffs);
         }
 
         const rowItemTemplate = document.querySelector('#row-item-template');
@@ -83,8 +77,9 @@ export async function displayAllItems() {
             rowItem.children[0].textContent = item.name;
             rowItem.children[1].textContent = item.category;
             rowItem.children[2].textContent = item.description;
-            // rowItem.children[3].textContent = item.quantity;
+
             rowItem.children[4].textContent = item.unit_of_measure;
+            rowItem.children[5].textContent = item.updated_by || item.created_by;
             tableItems.append(rowItem);
     
             const optionName = document.createElement('option');
@@ -109,7 +104,6 @@ export async function displayAllItems() {
                     itemQuantity -= Number(writeoff.quantity);
                 }
             }
-            console.log('itemQuantity:', itemQuantity);
             rowItem.children[3].textContent = itemQuantity;
         }
     }
@@ -213,6 +207,7 @@ export async function displayAllSuppliers() {
             rowSupplier.children[3].textContent = supplier.contact_number;
             rowSupplier.children[4].textContent = supplier.payment_mode;
             rowSupplier.children[5].textContent = supplier.credit_term;
+            rowSupplier.children[6].textContent = supplier.updated_by || supplier.created_by;
             tableSuppliers.append(rowSupplier);
 
             const optionName = document.createElement('option');
@@ -348,6 +343,7 @@ export async function displayAllPurchases() {
             rowPurchase.children[4].textContent = purchase.cost;
             rowPurchase.children[5].textContent = purchase.supplier;
             rowPurchase.children[6].textContent = new Date(purchase.created_at).toGMTString();
+            rowPurchase.children[7].textContent = purchase.updated_by || purchase.created_by;
             tablePurchases.append(rowPurchase);
 
             const optionID = document.createElement('option');
@@ -468,6 +464,7 @@ export async function displayAllConsumptions() {
             rowConsumption.children[2].textContent = consumption.quantity;
             rowConsumption.children[3].textContent = consumption.unit_of_measure;
             rowConsumption.children[4].textContent = new Date(consumption.created_at).toGMTString();
+            rowConsumption.children[5].textContent = consumption.updated_by || consumption.created_by;
             tableConsumptions.append(rowConsumption);
 
             const optionID = document.createElement('option');
@@ -577,6 +574,7 @@ export async function displayAllWriteoffs() {
             rowWriteoff.children[3].textContent = writeoff.unit_of_measure;
             rowWriteoff.children[4].textContent = writeoff.just_cause;
             rowWriteoff.children[5].textContent = new Date(writeoff.created_at).toGMTString();
+            rowWriteoff.children[6].textContent = writeoff.updated_by || writeoff.created_by;
             tableWriteoffs.append(rowWriteoff);
 
             const optionID = document.createElement('option');

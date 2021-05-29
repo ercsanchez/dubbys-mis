@@ -1,15 +1,7 @@
-// import { getAllPurchases } from './model.js';
-
 import { logoutUser, getAllItems, getAllSuppliers, displayAllPurchases, addPurchase, deletePurchase, updatePurchase } from "./controller.js";
 
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwt');
-
-// MUST RETRIEVE LOCALSTORAGE FOR EVERY EVENT!!!!!!!!!!!!!
-// REFACTOR THIS AND PLACE INSIDE EVENT LISTENERS
-// const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
-// const listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
-// const listOfPurchases = JSON.parse(localStorage.getItem('listOfPurchases'));
 
 const logoutBtn = document.querySelector('#btn-logout');
 const addPurchaseForm = document.querySelector('#addPurchaseForm');
@@ -18,7 +10,6 @@ const deletePurchaseForm = document.querySelector('#deletePurchaseForm');
 const deleteIDSelect = document.querySelector('#deleteID');
 const updatePurchaseForm = document.querySelector('#updatePurchaseForm');
 const updateIDSelect = document.querySelector('#updateID');
-// const updateName = document.querySelector('#updateName');
 
 document.querySelector('.logout a').text = localStorage.getItem('username');
 
@@ -46,12 +37,6 @@ logoutBtn.addEventListener('click', event => {
     logoutUser();
 });
 
-// console.log('addPurchaseModal:', document.getElementById('addPurchaseModal'));
-// console.log('addPurchaseModal:', document.querySelector('#addPurchaseModal'));
-
-// console.log(addPurchaseForm);
-// console.log(deletePurchaseForm);
-// console.log(updatePurchaseForm);
 
 addItemNameSelect.addEventListener('change', event => {
     let entered_item_name = addItemNameSelect.value;
@@ -104,7 +89,6 @@ deleteIDSelect.addEventListener('change', event => {
             supplier = purchase.supplier;
         }
     }
-    // console.log(document.querySelector('#addUnitOfMeasure').firstElementChild);
     document.querySelector('#deleteItemName').firstElementChild.text = item_name;
     // document.querySelector('#deleteItemName').firstElementChild.value = item_name;
     document.querySelector('#deleteQuantity').firstElementChild.text = quantity;

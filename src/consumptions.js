@@ -1,10 +1,6 @@
-// import { logoutUser, getAllItems, getAllSuppliers, displayAllPurchases, addPurchase, deletePurchase, updatePurchase } from "./controller.js";
 import { logoutUser, getAllItems, displayAllConsumptions, addConsumption, deleteConsumption, updateConsumption } from "./controller.js";
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwt');
-
-// const listOfItems = JSON.parse(localStorage.getItem('listOfItems'));
-// const listOfConsumptions = JSON.parse(localStorage.getItem('listOfConsumptions'));
 
 const logoutBtn = document.querySelector('#btn-logout');
 const addItemNameSelect = document.querySelector('#addItemName');
@@ -117,15 +113,5 @@ updateConsumptionForm.addEventListener('submit', event => {
     event.preventDefault();
     let consumption_id = event.currentTarget.querySelector('#updateID').value;
     let quantity = event.currentTarget.querySelector('#updateQuantity').value;
-    // let cost = event.currentTarget.querySelector('#updateCost').value;
-    // let entered_supplier_name = event.currentTarget.querySelector('#updateSupplierName').value;
-    // let supplier_id;
-    // const listOfSuppliers = JSON.parse(localStorage.getItem('listOfSuppliers'));
-    // for (const supplier of listOfSuppliers) {
-    //     if (supplier.name === entered_supplier_name) {
-    //         supplier_id = supplier.id;
-    //         break;
-    //     }
-    // }
     updateConsumption(consumption_id, quantity);
 });
